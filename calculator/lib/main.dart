@@ -44,11 +44,11 @@ class MyHome extends State<MyApp> {
                           Row(children: <Widget>[
                             RaisedButton(
                               onPressed: () => setState(() {
-                                disp = disp + "x ";
+                                disp = disp + ".";
                               }),
-                              padding: EdgeInsets.only(right:42, bottom: 40, top: 40, left: 40),
+                              padding: EdgeInsets.only(right:45, bottom: 40, top: 40, left: 45),
                               child: Text(
-                                "x",
+                                ".",
                                 textScaleFactor: 3,
                               ),
                               shape: RoundedRectangleBorder(
@@ -69,18 +69,20 @@ class MyHome extends State<MyApp> {
                                   borderRadius: BorderRadius.circular(5)),
                             ),
                             RaisedButton(
-                              onPressed: ()=>setState(() {
-                               disp = "";
+                              onPressed: () => setState(() {
+                                disp = disp + "x ";
                               }),
-                              padding: EdgeInsets.all(40),
+                              padding: EdgeInsets.only(right:42, bottom: 40, top: 40, left: 40),
                               child: Text(
-                                "C",
-                                textScaleFactor: 2.86,
+                                "x",
+                                textScaleFactor: 3,
                               ),
                               shape: RoundedRectangleBorder(
                                   side: BorderSide(color: Colors.orange),
                                   borderRadius: BorderRadius.circular(5)),
-                            )
+                            ),
+                            
+                            
                           ]),
                           Row(
                             children: <Widget>[
@@ -238,6 +240,19 @@ class MyHome extends State<MyApp> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
+                          RaisedButton(
+                              onPressed: ()=>setState(() {
+                               disp = "";
+                              }),
+                              padding: EdgeInsets.all(40),
+                              child: Text(
+                                "C",
+                                textScaleFactor: 2.86,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.orange),
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
                           RaisedButton(
                             onPressed: () => setState(() {
                                 disp = disp + "+";
