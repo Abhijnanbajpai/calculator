@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -12,9 +14,52 @@ class MyApp extends StatefulWidget {
 }
 
 class MyHome extends State<MyApp> {
-  @override
   var disp = "";
-  var comp = 0;
+  var comp = List();
+  var x = 0.0;
+  var n = 0;
+
+  processing() {
+    var operators = List();
+    var operands = List();
+
+    for (int i = 0; i < comp.length; ++i) {
+      if (comp[i] is double) {
+        if (i != 0) {
+          if (comp[i - n - 1] == ".") {
+            x = x + (comp[i] / pow(10, n + 1));
+            ++n;
+          } else
+            x = x * 10.0 + comp[i];
+        } else
+          x = x * 10.0 + comp[i];
+      } else {
+        if (comp[i] != ".")
+        {
+          operands.add(x);
+          operators.add(comp[i]);
+          x = 0;
+        }
+        n = 0;
+      }
+    }
+
+    operands.add(x); 
+
+    for (int i = 0; i < operators.length; ++i) {
+      if (operators[i] == "+") operands[i + 1] = operands[i] + operands[i + 1];
+      if (operators[i] == "-") operands[i + 1] = operands[i] - operands[i + 1];
+      if (operators[i] == "*") operands[i + 1] = operands[i] * operands[i + 1];
+      if (operators[i] == "/") operands[i + 1] = operands[i] / operands[i + 1];
+      if (operators[i] == "^") operands[i + 1] = pow(operands[i], operands[i + 1]);
+    }
+
+    x = 0.0;
+
+    return operands[operands.length - 1];
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
@@ -45,8 +90,10 @@ class MyHome extends State<MyApp> {
                             RaisedButton(
                               onPressed: () => setState(() {
                                 disp = disp + ".";
+                                comp.add(".");
                               }),
-                              padding: EdgeInsets.only(right:45, bottom: 40, top: 40, left: 45),
+                              padding: EdgeInsets.only(
+                                  right: 45, bottom: 40, top: 40, left: 45),
                               child: Text(
                                 ".",
                                 textScaleFactor: 3,
@@ -58,6 +105,7 @@ class MyHome extends State<MyApp> {
                             RaisedButton(
                               onPressed: () => setState(() {
                                 disp = disp + "÷";
+                                comp.add("/");
                               }),
                               padding: EdgeInsets.all(40),
                               child: Text(
@@ -70,9 +118,11 @@ class MyHome extends State<MyApp> {
                             ),
                             RaisedButton(
                               onPressed: () => setState(() {
-                                disp = disp + "x ";
+                                disp = disp + "x";
+                                comp.add("*");
                               }),
-                              padding: EdgeInsets.only(right:42, bottom: 40, top: 40, left: 40),
+                              padding: EdgeInsets.only(
+                                  right: 42, bottom: 40, top: 40, left: 40),
                               child: Text(
                                 "x",
                                 textScaleFactor: 3,
@@ -81,15 +131,14 @@ class MyHome extends State<MyApp> {
                                   side: BorderSide(color: Colors.orange),
                                   borderRadius: BorderRadius.circular(5)),
                             ),
-                            
-                            
                           ]),
                           Row(
                             children: <Widget>[
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "1";
-                              }),
+                                  disp = disp + "1";
+                                  comp.add(1.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "1",
@@ -101,8 +150,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "2";
-                              }),
+                                  disp = disp + "2";
+                                  comp.add(2.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "2",
@@ -114,8 +164,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "3";
-                              }),
+                                  disp = disp + "3";
+                                  comp.add(3.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "3",
@@ -131,8 +182,9 @@ class MyHome extends State<MyApp> {
                             children: <Widget>[
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "4";
-                              }),
+                                  disp = disp + "4";
+                                  comp.add(4.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "4",
@@ -144,8 +196,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "5";
-                              }),
+                                  disp = disp + "5";
+                                  comp.add(5.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "5",
@@ -157,8 +210,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "6";
-                              }),
+                                  disp = disp + "6";
+                                  comp.add(6.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "6",
@@ -174,8 +228,9 @@ class MyHome extends State<MyApp> {
                             children: <Widget>[
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "7";
-                              }),
+                                  disp = disp + "7";
+                                  comp.add(7.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "7",
@@ -187,8 +242,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "8";
-                              }),
+                                  disp = disp + "8";
+                                  comp.add(8.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "8",
@@ -200,8 +256,9 @@ class MyHome extends State<MyApp> {
                               ),
                               RaisedButton(
                                 onPressed: () => setState(() {
-                                disp = disp + "9";
-                              }),
+                                  disp = disp + "9";
+                                  comp.add(9.0);
+                                }),
                                 padding: EdgeInsets.all(40),
                                 child: Text(
                                   "9",
@@ -218,8 +275,9 @@ class MyHome extends State<MyApp> {
                               children: <Widget>[
                                 RaisedButton(
                                   onPressed: () => setState(() {
-                                disp = disp + "0";
-                              }),
+                                    disp = disp + "0";
+                                    comp.add(0.0);
+                                  }),
                                   padding: EdgeInsets.only(
                                       left: 145,
                                       right: 145,
@@ -241,24 +299,40 @@ class MyHome extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           RaisedButton(
-                              onPressed: ()=>setState(() {
-                               disp = "";
-                              }),
-                              padding: EdgeInsets.all(40),
-                              child: Text(
-                                "C",
-                                textScaleFactor: 2.86,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.orange),
-                                  borderRadius: BorderRadius.circular(5)),
+                            onPressed: () => setState(() {
+                              disp = "";
+                              comp.clear();
+                            }),
+                            padding: EdgeInsets.only(left: 42.5, right: 40, bottom: 45, top: 37),
+                            child: Text(
+                              "C",
+                              textScaleFactor: 2.86,
                             ),
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.orange),
+                                borderRadius: BorderRadius.circular(5)),
+                          ),
                           RaisedButton(
                             onPressed: () => setState(() {
-                                disp = disp + "+";
-                              }),
+                              disp = disp + "^";
+                              comp.add("^");
+                            }),
+                            padding: EdgeInsets.only(left: 46, right: 45.5, top: 40, bottom: 42),
+                            child: Text(
+                              "^",
+                              textScaleFactor: 2.86,
+                            ),
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.orange),
+                                borderRadius: BorderRadius.circular(5)),
+                          ),                          
+                          RaisedButton(
+                            onPressed: () => setState(() {
+                              disp = disp + "+";
+                              comp.add("+");
+                            }),
                             padding: EdgeInsets.only(
-                                bottom: 86, top: 86, left: 42, right: 40),
+                                bottom: 40, top: 40, left: 45, right: 40),
                             child: Text(
                               "+",
                               textScaleFactor: 3,
@@ -269,10 +343,11 @@ class MyHome extends State<MyApp> {
                           ),
                           RaisedButton(
                             onPressed: () => setState(() {
-                                disp = disp + "-";
-                              }),
+                              disp = disp + "-";
+                              comp.add("-");
+                            }),
                             padding: EdgeInsets.only(
-                                left: 46, right: 40, top: 30, bottom: 30),
+                                left: 47, right: 43, top: 31, bottom: 32),
                             child: Text(
                               "-",
                               textScaleFactor: 4,
@@ -282,8 +357,11 @@ class MyHome extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(5)),
                           ),
                           RaisedButton(
-                            onPressed: null,
-                            padding: EdgeInsets.all(40),
+                            onPressed: () => setState(() {
+                              var res = processing();
+                              disp = "$res";
+                            }),
+                            padding: EdgeInsets.only(left: 43, right: 42, bottom: 20, top: 20),
                             child: Text(
                               "=",
                               textScaleFactor: 3,
@@ -307,14 +385,18 @@ class Display extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      margin: EdgeInsets.all(50),
+      margin: EdgeInsets.only(right: 20, bottom: 20, left: 20, top: 20),
       color: Colors.lightBlue[100],
-      child: Text(
-        '$data',
-        textScaleFactor: 2,
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          '$data',
+          textScaleFactor: 3,
+          textAlign: TextAlign.center,
+        ),
       ),
-      height: 100,
-      width: 300,
+      height: 150,
+      width: 380,
     );
   }
 }
